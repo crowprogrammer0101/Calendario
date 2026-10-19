@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberpunk Recording Schedule - Octubre 2026</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyberpunk: {
+                            bg: '#050508',
+                            card: '#0c0c14',
+                            border: '#1f1f38',
+                            cyan: '#00f3ff',
+                            magenta: '#ff0055',
+                            green: '#00ff66',
+                            yellow: '#f3e600',
+                            purple: '#bd00ff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts: Share Tech Mono & Orbitron -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: #050508;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .neon-glow-cyan {
+            text-shadow: 0 0 8px rgba(0, 243, 255, 0.7), 0 0 20px rgba(0, 243, 255, 0.4);
+        }
+        .neon-glow-magenta {
+            text-shadow: 0 0 8px rgba(255, 0, 85, 0.7), 0 0 20px rgba(255, 0, 85, 0.4);
+        }
+        .neon-box-cyan {
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.25), inset 0 0 10px rgba(0, 243, 255, 0.1);
+            border: 1px solid rgba(0, 243, 255, 0.4);
+        }
+        .neon-box-magenta {
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.25), inset 0 0 10px rgba(255, 0, 85, 0.1);
+            border: 1px solid rgba(255, 0, 85, 0.4);
+        }
+        .neon-box-green {
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.25), inset 0 0 10px rgba(0, 255, 102, 0.1);
+            border: 1px solid rgba(0, 255, 102, 0.4);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050508;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00f3ff;
+            border-radius: 3px;
+        }
+        .scanlines {
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%, 
+                rgba(0, 0, 0, 0.25) 50%
+            ), linear-gradient(
+                90deg,
+                rgba(255, 0, 0, 0.03),
+                rgba(0, 255, 0, 0.01),
+                rgba(0, 0, 255, 0.03)
+            );
+            background-size: 100% 4px, 6px 100%;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-cyberpunk-bg scanlines relative p-3 sm:p-6">
+
+    <!-- Ambient background glows -->
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-10 right-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto space-y-6 relative z-10">
+        
+        <!-- Header -->
+        <header class="border border-cyberpunk-cyan/40 bg-cyberpunk-card/80 backdrop-blur-md p-4 sm:p-6 rounded-xl neon-box-cyan flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <div class="flex items-center gap-2 text-cyberpunk-cyan text-xs tracking-widest uppercase">
+                    <span class="inline-block w-2 h-2 rounded-full bg-cyberpunk-cyan animate-ping"></span>
+                    SYS.LOG // MÓDULO DE GRABACIONES
+                </div>
+                <h1 class="text-2xl sm:text-4xl font-black text-white tracking-wider neon-glow-cyan mt-1">
+                    OCTUBRE <span class="text-cyberpunk-magenta neon-glow-magenta">2026</span>
+                </h1>
+            </div>
+            <div class="flex items-center gap-4 text-right">
+                <div class="bg-black/60 border border-cyberpunk-magenta/40 px-4 py-2 rounded-lg neon-box-magenta">
+                    <p class="text-xs text-cyberpunk-magenta tracking-wider">PLAZO ACTIVO</p>
+                    <p id="status-counter" class="text-lg font-bold text-white font-orbitron">CARGANDO...</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Calendar Section (Cols 1 & 2) -->
+            <div class="lg:col-span-2 border border-cyberpunk-cyan/30 bg-cyberpunk-card/80 backdrop-blur-md rounded-xl p-4 sm:p-6 neon-box-cyan flex flex-col">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg sm:text-xl font-bold text-cyberpunk-cyan tracking-wider flex items-center gap-2">
+                        <span>[</span> CALENDARIO DE SESIONES <span>]</span>
+                    </h2>
+                    <span id="event-count-badge" class="text-xs bg-cyberpunk-cyan/10 text-cyberpunk-cyan border border-cyberpunk-cyan/30 px-3 py-1 rounded-full">
+                        0 eventos sincronizados
+                    </span>
+                </div>
+
+                <!-- Days of week header -->
+                <div class="grid grid-cols-7 gap-1 sm:gap-2 text-center text-xs sm:text-sm font-bold text-gray-400 mb-2 font-orbitron">
+                    <div class="text-cyberpunk-magenta">DOM</div>
+                    <div>LUN</div>
+                    <div>MAR</div>
+                    <div>MIE</div>
+                    <div>JUE</div>
+                    <div>VIE</div>
+                    <div>SAB</div>
+                </div>
+
+                <!-- Calendar Grid Container -->
+                <div id="calendar-grid" class="grid grid-cols-7 gap-1 sm:gap-2 flex-grow">
+                    <!-- Javascript will populate days here -->
+                </div>
+                
+                <div class="mt-4 pt-3 border-t border-gray-800 text-xs text-gray-400 flex items-center justify-between">
+                    <span>* Haz clic en un día con destello para ver detalles.</span>
+                    <span class="text-cyberpunk-green flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-cyberpunk-green"></span> Datos en vivo vía eventos.txt
+                    </span>
+                </div>
+            </div>
+
+            <!-- Sidebar / Upcoming List (Col 3) -->
+            <div class="border border-cyberpunk-magenta/30 bg-cyberpunk-card/80 backdrop-blur-md rounded-xl p-4 sm:p-6 neon-box-magenta flex flex-col">
+                <h2 class="text-lg sm:text-xl font-bold text-cyberpunk-magenta tracking-wider mb-4 flex items-center gap-2">
+                    <span>⚡</span> PRÓXIMOS RECORDATORIOS
+                </h2>
+                
+                <div id="upcoming-list" class="space-y-3 overflow-y-auto max-h-[420px] pr-1">
+                    <!-- Javascript will populate upcoming items here -->
+                    <div class="text-gray-500 text-sm italic text-center py-8">Analizando flujo de datos...</div>
+                </div>
+
+                <div class="mt-auto pt-4 border-t border-gray-800">
+                    <div class="bg-black/40 border border-gray-800 p-3 rounded-lg text-xs text-gray-400">
+                        <p class="text-cyberpunk-yellow font-bold mb-1">FORMATO REQUERIDO TXT:</p>
+                        <p class="font-mono text-[10px] text-gray-300">Fecha - Hora - Ponente - Lugar</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Day Details Modal -->
+    <div id="event-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-cyberpunk-card border border-cyberpunk-cyan w-full max-w-md rounded-xl p-6 neon-box-cyan relative animate-in fade-in zoom-in duration-200">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-cyberpunk-magenta text-xl font-bold transition-colors">
+                [X]
+            </button>
+            <div class="flex items-center gap-2 text-cyberpunk-cyan text-xs tracking-widest mb-1">
+                REGISTRO DE FECHA
+            </div>
+            <h3 id="modal-date-title" class="text-xl font-bold text-white mb-4 font-orbitron neon-glow-cyan">
+                19/10/2026
+            </h3>
+            
+            <div id="modal-events-container" class="space-y-3 max-h-[60vh] overflow-y-auto pr-1">
+                <!-- Events populated dynamically -->
+            </div>
+
+            <div class="mt-6 text-right">
+                <button onclick="closeModal()" class="bg-cyberpunk-cyan/20 hover:bg-cyberpunk-cyan/30 text-cyberpunk-cyan border border-cyberpunk-cyan px-4 py-2 rounded-lg text-sm transition-all font-bold">
+                    CERRAR PANEL
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden fallback data or data container -->
+    <script>
+        // Default mock data string simulating "eventos.txt" in case fetch fails locally or file is missing
+        const DEFAULT_EVENTS_TXT = `
+        `.trim();
+
+        let eventsData = {};
+
+        async function loadEvents() {
+            let rawText = "";
+            try {
+                const response = await fetch('eventos.txt');
+                if (!response.ok) throw new Error("No se pudo cargar eventos.txt");
+                rawText = await response.text();
+            } catch (error) {
+                console.warn("Usando datos de respaldo predeterminados (eventos.txt no encontrado o bloqueado por CORS local).", error);
+                rawText = DEFAULT_EVENTS_TXT;
+            }
+
+            parseEvents(rawText);
+            renderCalendar();
+            renderUpcomingList();
+            updateCounter();
+        }
+
+        function parseEvents(text) {
+            eventsData = {};
+            const lines = text.split('\n');
+            
+            lines.forEach(line => {
+                const trimmed = line.trim();
+                if (!trimmed || trimmed.startsWith('#')) return; // Ignore comments or empty lines
+
+                const parts = trimmed.split('-').map(p => p.trim());
+                if (parts.length >= 4) {
+                    const [fecha, hora, ponente, lugar] = parts;
+                    
+                    // Validate date format DD/MM/YYYY
+                    if (!eventsData[fecha]) {
+                        eventsData[fecha] = [];
+                    }
+                    
+                    eventsData[fecha].push({
+                        hora,
+                        ponente,
+                        lugar,
+                        raw: trimmed
+                    });
+                }
+            });
+
+            // Sort events per day by time
+            Object.keys(eventsData).forEach(dateKey => {
+                eventsData[dateKey].sort((a, b) => a.hora.localeCompare(b.hora));
+            });
+        }
+
+        function renderCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '';
+
+            // October 2026 configuration
+            // Oct 1, 2026 is a Thursday (Day index 4 if Sunday=0)
+            const year = 2026;
+            const month = 9; // October is 9 in JS Date (0-indexed)
+            const daysInMonth = 31;
+            const firstDayIndex = new Date(year, month, 1).getDay(); // 0 (Sun) to 6 (Sat)
+
+            let totalEventsCount = 0;
+
+            // Blank spaces for days before Oct 1
+            for (let i = 0; i < firstDayIndex; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = 'h-20 sm:h-24 bg-black/20 border border-gray-900 rounded-lg opacity-30';
+                grid.appendChild(emptyCell);
+            }
+
+            // Days of October 2026
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayStr = day < 10 ? `0${day}` : `${day}`;
+                const dateKey = `${dayStr}/10/2026`;
+                const dayEvents = eventsData[dateKey] || [];
+                
+                if (dayEvents.length > 0) {
+                    totalEventsCount += dayEvents.length;
+                }
+
+                const cell = document.createElement('div');
+                
+                let cellClasses = 'h-20 sm:h-24 rounded-lg p-2 flex flex-col justify-between transition-all relative group ';
+                
+                if (dayEvents.length > 0) {
+                    cellClasses += 'bg-cyberpunk-card border border-cyberpunk-cyan/70 neon-box-cyan cursor-pointer hover:bg-cyberpunk-cyan/10 hover:scale-[1.02]';
+                    cell.onclick = () => openModal(dateKey, dayEvents);
+                } else {
+                    cellClasses += 'bg-black/40 border border-gray-800/80 text-gray-600';
+                }
+
+                cell.className = cellClasses;
+
+                // Day number & glowing indicators
+                let htmlContent = `
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-xs sm:text-sm font-orbitron ${dayEvents.length > 0 ? 'text-cyberpunk-cyan' : 'text-gray-500'}">${day}</span>
+                        ${dayEvents.length > 0 ? `<span class="w-2 h-2 rounded-full bg-cyberpunk-magenta animate-ping"></span>` : ''}
+                    </div>
+                `;
+
+                if (dayEvents.length > 0) {
+                    htmlContent += `
+                        <div class="space-y-1 overflow-hidden">
+                            <div class="text-[10px] sm:text-xs text-cyberpunk-magenta font-semibold truncate">
+                                ⚡ ${dayEvents.length} evento${dayEvents.length > 1 ? 's' : ''}
+                            </div>
+                            <div class="text-[9px] text-gray-300 truncate hidden sm:block">
+                                ${dayEvents[0].hora} - ${dayEvents[0].ponente}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                cell.innerHTML = htmlContent;
+                grid.appendChild(cell);
+            }
+
+            // Update badge counter
+            document.getElementById('event-count-badge').innerText = `${totalEventsCount} eventos sincronizados`;
+        }
+
+        function renderUpcomingList() {
+            const container = document.getElementById('upcoming-list');
+            container.innerHTML = '';
+
+            // Flatten all events with their dates
+            let allEvents = [];
+            Object.keys(eventsData).forEach(dateStr => {
+                eventsData[dateStr].forEach(ev => {
+                    allEvents.push({
+                        dateStr,
+                        ...ev
+                    });
+                });
+            });
+
+            if (allEvents.length === 0) {
+                container.innerHTML = '<div class="text-gray-500 text-sm italic text-center py-8">No hay eventos registrados en eventos.txt</div>';
+                return;
+            }
+
+            // Sort by date & time
+            allEvents.sort((a, b) => {
+                const [d1, m1, y1] = a.dateStr.split('/');
+                const [d2, m2, y2] = b.dateStr.split('/');
+                const dateA = new Date(`${y1}-${m1}-${d1}T${a.hora}`);
+                const dateB = new Date(`${y2}-${m2}-${d2}T${b.hora}`);
+                return dateA - dateB;
+            });
+
+            allEvents.forEach((ev, idx) => {
+                const card = document.createElement('div');
+                card.className = 'bg-black/60 border border-cyberpunk-magenta/40 p-3 rounded-lg hover:border-cyberpunk-cyan transition-colors group';
+                card.innerHTML = `
+                    <div class="flex justify-between items-center text-xs text-cyberpunk-cyan mb-1 font-orbitron">
+                        <span>📅 ${ev.dateStr}</span>
+                        <span class="bg-cyberpunk-magenta/20 text-cyberpunk-magenta px-2 py-0.5 rounded text-[10px]">${ev.hora}</span>
+                    </div>
+                    <p class="text-sm font-bold text-white group-hover:text-cyberpunk-cyan transition-colors">${ev.ponente}</p>
+                    <p class="text-xs text-gray-400 mt-1 flex items-center gap-1">
+                        <span class="text-cyberpunk-green">📍</span> ${ev.lugar}
+                    </p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function updateCounter() {
+            // Target deadline: End of October 2026 (31/10/2026 23:59:59)
+            const targetDate = new Date(2026, 9, 31, 23, 59, 59);
+            const now = new Date();
+            const diff = targetDate - now;
+
+            const counterEl = document.getElementById('status-counter');
+            if (diff <= 0) {
+                counterEl.innerText = "PLAZO CULMINADO";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            
+            counterEl.innerText = `${days}D ${hours}H RESTANTES`;
+        }
+
+        function openModal(dateStr, events) {
+            document.getElementById('modal-date-title').innerText = `FECHA: ${dateStr}`;
+            const container = document.getElementById('modal-events-container');
+            container.innerHTML = '';
+
+            events.forEach((ev, i) => {
+                const item = document.createElement('div');
+                item.className = 'bg-black/70 border border-cyberpunk-cyan/40 p-3 rounded-lg neon-box-cyan';
+                item.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-xs font-bold text-cyberpunk-magenta">SESIÓN #${i + 1}</span>
+                        <span class="text-xs font-mono text-cyberpunk-cyan bg-cyberpunk-cyan/10 px-2 py-0.5 rounded border border-cyberpunk-cyan/30">⏰ ${ev.hora}</span>
+                    </div>
+                    <p class="text-white font-bold text-sm mt-1">${ev.ponente}</p>
+                    <p class="text-xs text-gray-400 mt-1">📍 Lugar: <span class="text-white">${ev.lugar}</span></p>
+                `;
+                container.appendChild(item);
+            });
+
+            document.getElementById('event-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('event-modal').classList.add('hidden');
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            loadEvents();
+        };
+    </script>
+</body>
+</html>
